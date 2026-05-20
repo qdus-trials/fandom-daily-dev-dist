@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app" ng-controller="ctrl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+  <script type="text/javascript">
+    var app = angular.module('app', []);
+	app.config( [
+	    '$compileProvider',
+	    function( $compileProvider )
+	    {   
+	        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|itms-services):/);
+	        // Angular before v1.2 uses $compileProvider.urlSanitizationWhitelist(...)
+	    }
+	])
+    app.controller('ctrl', function ($scope) {
+      $scope.title = "FandomDaily Dev Build";
+      $scope.iosLink = "itms-services://?action=download-manifest&amp;url=" + "https://www.qualdev.com/iosbeta/fandomdailydev/manifest.plist";
+      $scope.androidLink = "app.apk";
+      $scope.iconLink = "icon.512x512.png";
+
+      $scope.apps = [
+        {
+          "name": "iOS",
+          "link": $scope.iosLink,
+          "subtitle": "Click App Icon",
+          "icon": $scope.iconLink
+        }
+        <!-- {
+          "name": "Android",
+          "link": $scope.androidLink,
+          "subtitle": "Click App Icon",
+          "icon": $scope.iconLink
+        } -->
+      ]
+    })
+  </script>
+
+  <style type="text/css">
+    body { background: #ffffff; font-family: Helvetica, arial, sans-serif; color: #ff451a;}
+    .instruction { font-size: 14pt; padding: 6px; text-align: center;}
+    .container { width: 100%; padding: 4px 0; margin: 10px 0; align-content: center }
+    .subtitle { font-size: 10pt; }
+    .arrow { font-size: 15pt; padding: 10px 10px; }
+    table { width: 100%; text-align: center; align-content: center }
+    .tableinner { width: 100%; max-width: 150px; text-align: center; align-content: center  }
+    .tile{ height: 60px; width: 60px; display: block; margin: auto; margin-bottom: 10px;}
+    .tile img{ width: 100%; height: 100%; border: solid 1px #fff; border-radius: 6px;}
+    .qr-code-row{padding: 40px 10px 10px 10px; display: table; margin: auto;}
+    .qr-code{width: 120px; height: 120px;}
+    .text-center{text-align: center;}
+  </style>
+
+  <title>{{title}}</title>
+
+</head>
+<body >
+
+
+<div class="container">
+  <table>
+    <tr>
+      <td class="instruction">Download and install <br>
+        <b>{{title}}</b> <br>
+        in your device.</td>
+    </tr>
+    <tr>
+      <td width="24" class="arrow">&darr;</td>
+    </tr>
+    <tr>
+      <td align="center">
+        <table class="tableinner">
+          <tr>
+            <th class="subtitle" ng-repeat="app in apps">
+              {{app.name}}
+            </th>
+          <tr >
+            <td width="60" class="imagelink" ng-repeat="app in apps"><a class="tile" href="{{app.link}}"> <img ng-src="{{app.icon}}"
+                                                                         alt="img"/> </a></td>
+          </tr>
+          <tr>
+            <td class="subtitle" ng-repeat="app in apps">{{app.subtitle}}</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr class="qr-code-row">
+      <td class="subtitle" align="center">
+        <p>You can scan the below QR Code in your smartphones to get the page URL in your smartphones.</p>
+        <img class="qr-code" src="qr-code.png">
+      </td>
+    <tr >
+</table>
+</div>
+
+</body>
+</html>
